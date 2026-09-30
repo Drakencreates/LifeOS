@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LifeOS — Your Personal Life Operating System
 
 > **Phase 1 & Phase 2 Complete:** Project foundation, modern SaaS design system, responsive shell layout, navigation, reusable UI library, 9 frontend pages, and **complete full-stack Authentication (Phase 2)** with Node.js, Express, Prisma, bcrypt, and JWT.
@@ -92,3 +93,6 @@ node server/test-auth.js
 - **Email**: `alex.dev@lifeos.io`
 - **Password**: `LifeOS2026!`
 *(Or click the "Use Demo Account" button on the login screen for 1-click prefill)*
+=======
+# LifeOS
+>>>>>>> 689b3e610d149b5ac76586851d3ed3d7520a247a
