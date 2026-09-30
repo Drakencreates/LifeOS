@@ -1,0 +1,83 @@
+================================================================================
+LifeOS - Application Documentation
+================================================================================
+
+1. Overview
+--------------------------------------------------------------------------------
+LifeOS is a comprehensive, personal operating system designed to track and manage life events, memories, goals, and important documents. It serves as a secure, centralized vault for a user's personal milestones and daily activities, ensuring that all data is strictly isolated per user for maximum privacy.
+
+2. Architecture
+--------------------------------------------------------------------------------
+The application is built using a modern, decoupled full-stack architecture:
+
+- **Frontend**: Built with React and bundled using Vite for fast compilation. It uses TailwindCSS for responsive, modern styling and Recharts for rendering analytics and data visualizations on the dashboard.
+- **Backend**: Built with Node.js and Express.js, providing robust RESTful APIs to handle client requests, business logic, and file uploads.
+- **Database**: Uses SQLite for persistent storage, managed via Prisma ORM. Prisma provides a type-safe database client and handles schema migrations.
+- **Authentication**: JWT-based (JSON Web Token) authentication ensures secure access to routes. User passwords are encrypted before storage.
+- **Storage**: Uses `multer` for handling multipart/form-data, currently storing documents locally with architectural flexibility to transition to cloud storage like AWS S3 or Cloudinary.
+
+3. Data Flow Diagram (DFD)
+--------------------------------------------------------------------------------
+The flow of data through the system follows a standard Client-Server model:
+
+[User Interface (React)] 
+      |
+      | (HTTP Requests: GET, POST, PUT, DELETE / JSON Payloads / FormData)
+      v
+[Express API Router] --> Route matching
+      |
+      v
+[Auth Middleware] --> Extracts JWT, validates user identity, ensures data isolation
+      |
+      v
+[Controllers] --> Handles business logic for specific domains (Events, Goals, etc.)
+      |
+      +---> (If File Upload) --> [Multer] --> [Local File System Storage]
+      |
+      v
+[Prisma ORM Client] --> Constructs and executes SQL queries safely
+      |
+      v
+[SQLite Database] --> Reads/Writes Data
+
+4. Phase-by-Phase Implementation Details
+--------------------------------------------------------------------------------
+
+**Phase 1 & 2: Project Scaffolding & Authentication**
+- Initialized the Vite React frontend and Express backend.
+- Set up the Prisma ORM and SQLite database.
+- Implemented the `User` model.
+- Built the registration and login flows with JWT authentication.
+- Created the foundational layout, routing, and protected routes on the frontend.
+
+**Phase 3: Events and Categories**
+- Designed and migrated the `Category` and `Event` database schemas.
+- Developed REST APIs for creating, reading, updating, and deleting events/categories.
+- Enforced strict authorization so users can only view and modify their own data.
+- Built the "Add Event" modal UI allowing categorization, visibility settings, and importance marking (Normal, Important, Milestone).
+
+**Phase 4: Life Timeline**
+- Created the central feature of LifeOS: a chronological timeline.
+- Grouped events dynamically by Year, Month, and Day.
+- Designed visually distinct Event Cards to highlight "Important" events and "Milestones".
+- Implemented advanced filtering (Search, Category, Date range, Importance) and sorting capabilities (Newest/Oldest first).
+
+**Phase 5: Memories and Goals**
+- Added `Memory` and `Goal` models to Prisma.
+- Created APIs for CRUD operations on memories and goals.
+- Built a beautiful "Memory Vault" using a responsive card grid to display image-based memories with tags and locations.
+- Designed Goal tracking UI to manage short and long-term goals, featuring progress tracking, priority levels (Low, Medium, High), and status updates (Not Started, In Progress, Completed).
+
+**Phase 6: Document Management**
+- Created the `Document` Prisma model to store file metadata securely.
+- Integrated `multer` to handle secure document uploads to the backend.
+- Developed the Document Vault UI featuring drag-and-drop file upload.
+- Implemented document categorization (e.g., Certificates, Academic, Career) and built functionality for secure file preview and downloading. 
+- Architected the storage layer so users can never access another user's document via URL manipulation.
+
+**Phase 7: Dashboard Analytics and Global Search**
+- Aggregated real database metrics to replace mock data on the Dashboard.
+- Developed the `/api/dashboard/stats` endpoint to provide a global overview of total events, goals, memories, and documents.
+- Integrated Recharts to render beautiful charts representing the user's life overview (e.g., Event distribution by category).
+- Implemented a powerful `Global Search` (`/api/search`) feature that queries in parallel across Events, Memories, Goals, Documents, and Categories.
+- Added a polished, keyboard-accessible (Cmd+K) Global Search component to the Navbar with real-time results and categorization.
